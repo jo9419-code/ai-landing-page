@@ -106,6 +106,13 @@
     background: var(--grad);
     box-shadow: 0 0 14px var(--accent);
   }
+  .brand-avatar{
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 10px rgba(56,189,248,0.4);
+  }
 
   nav ul{
     list-style: none;
@@ -155,6 +162,7 @@
   section{
     padding: 110px 6vw;
     position: relative;
+    scroll-margin-top: 84px;
   }
 
   .reveal{
@@ -194,6 +202,35 @@
     background: var(--accent);
     box-shadow: 0 0 10px var(--accent);
   }
+  .hero-photo-wrap{
+    position: relative;
+    width: clamp(200px, 34vw, 320px);
+    height: clamp(200px, 34vw, 320px);
+    margin-bottom: 32px;
+    animation: bob 5s ease-in-out infinite;
+  }
+  .hero-photo-wrap::before{
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    background: var(--grad);
+    filter: blur(28px);
+    opacity: 0.55;
+    z-index: -1;
+  }
+  .hero-photo{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    box-shadow: 0 18px 40px -12px rgba(56,189,248,0.45);
+  }
+  @keyframes bob{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-16px); }
+  }
   .hero h1{
     font-size: clamp(2.2rem, 6vw, 4.4rem);
     line-height: 1.25;
@@ -213,7 +250,17 @@
   .hero-line{
     display: inline-block;
     white-space: nowrap;
-    font-size: clamp(0.62rem, 2.3vw, 1.25rem);
+    font-size: clamp(0.6rem, 2.3vw, 1.25rem);
+  }
+  .hero-instructor{
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--text);
+  }
+  .hero-instructor .divider{
+    color: var(--accent);
+    margin: 0 8px;
   }
   .hero-cta{
     margin-top: 42px;
@@ -263,23 +310,29 @@
     line-height: 1.7;
   }
 
-  /* 서비스 카드 */
+  /* 프로그램 카드 */
   .services-grid{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: 1fr;
     gap: 26px;
     max-width: 1100px;
     margin: 0 auto;
+  }
+  @media (min-width: 640px){
+    .services-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px){
+    .services-grid{ grid-template-columns: repeat(4, 1fr); }
   }
   .card{
     background: var(--card);
     border: 1px solid var(--card-border);
     border-radius: var(--radius);
     padding: 34px 28px;
-    transition: transform .3s ease, border-color .3s ease, background .3s ease;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease;
   }
   .card:hover{
-    transform: translateY(-8px) rotate(-1deg);
+    transform: translateY(-6px);
     border-color: rgba(56,189,248,0.45);
     background: rgba(255,255,255,0.85);
   }
@@ -291,8 +344,68 @@
     background: var(--grad);
     margin-bottom: 20px;
   }
-  .card h3{ font-size: 1.15rem; margin-bottom: 10px; }
-  .card p{ color: var(--text-dim); font-size: 0.92rem; line-height: 1.7; }
+  .card h3{ font-size: 1.15rem; margin-bottom: 14px; }
+  .card-list{ list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .card-list li{
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    padding-left: 18px;
+    position: relative;
+  }
+  .card-list li::before{
+    content: "";
+    position: absolute;
+    left: 0; top: 0.55em;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* 경력 마퀴 */
+  .career-section{ padding-top: 70px; padding-bottom: 70px; }
+  .marquee-outer{
+    overflow: hidden;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display: flex;
+    width: max-content;
+    gap: 16px;
+    animation: marquee 32s linear infinite;
+  }
+  .marquee-outer:hover .marquee-track{ animation-play-state: paused; }
+  .marquee-item{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 14px 24px;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .marquee-item--feature{
+    background: var(--grad);
+    border-color: transparent;
+    color: #fff;
+  }
+  @keyframes marquee{
+    from{ transform: translateX(0); }
+    to{ transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .marquee-track{ animation: none; }
+    .hero-photo-wrap,
+    .reveal{ animation: none !important; transition: none !important; }
+  }
 
   /* 후기 */
   .testi-grid{
@@ -389,45 +502,121 @@
   }
   .faq-a p{ color: var(--text-dim); line-height: 1.8; font-size: 0.92rem; }
 
-  /* 문의 CTA */
-  .cta-banner{
-    max-width: 1000px;
+  /* 문의 폼 */
+  .contact-photo{
+    display: block;
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 24px -8px rgba(56,189,248,0.4);
+    margin: 0 auto 20px;
+  }
+  .contact-form{
+    max-width: 760px;
     margin: 0 auto;
-    border-radius: 28px;
-    padding: 70px 40px;
-    text-align: center;
-    background: var(--grad);
-    position: relative;
-    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 40px 34px;
   }
-  .cta-banner::before{
-    content: "";
+  .hp-field{
     position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 55%);
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
   }
-  .cta-banner h2{
-    position: relative;
-    font-size: clamp(1.7rem, 4vw, 2.4rem);
-    font-weight: 900;
-    color: #fff;
+  .form-grid{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
   }
-  .cta-banner p{
-    position: relative;
-    margin-top: 16px;
-    color: rgba(255,255,255,0.9);
-    max-width: 480px;
-    margin-left: auto; margin-right: auto;
+  @media (min-width: 700px){
+    .form-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  .field{ display: flex; flex-direction: column; gap: 8px; }
+  .field-full{ grid-column: 1 / -1; }
+  .field label{
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  .req{ color: var(--accent); }
+  .field input,
+  .field select,
+  .field textarea{
+    font: inherit;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--card-border);
+    background: #fff;
+    color: var(--text);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field textarea{ min-height: 140px; resize: vertical; }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus{
+    outline: none;
+    border-color: var(--sky);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.25);
+  }
+  .field.has-error input,
+  .field.has-error select,
+  .field.has-error textarea{
+    border-color: var(--accent);
+  }
+  .field-error{
+    min-height: 1.1em;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .checkbox-field{
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+  .checkbox-field input{ margin-top: 3px; width: auto; }
+  .form-submit-wrap{
+    text-align: center;
+    margin-top: 34px;
+  }
+  @media (max-width: 780px){
+    .form-submit{ width: 100%; justify-content: center; }
+  }
+  .form-note{
+    margin-top: 20px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
     line-height: 1.7;
   }
-  .cta-banner .btn{
-    position: relative;
-    margin-top: 32px;
-    background: #fff;
-    color: var(--accent);
-    box-shadow: 0 10px 30px -8px rgba(15,23,42,0.25);
+  .form-status{
+    margin-top: 16px;
+    text-align: center;
+    font-weight: 700;
+    white-space: pre-line;
+    min-height: 1.4em;
   }
-  .cta-banner .btn:hover{ transform: translateY(-3px) scale(1.03) rotate(-1deg); }
+  .form-status.is-success{ color: #10b981; }
+  .form-status.is-error{ color: var(--accent); }
+  .contact-secondary{
+    text-align: center;
+    margin-top: 28px;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+  .contact-secondary a{
+    color: var(--sky);
+    font-weight: 700;
+    text-decoration: underline;
+  }
 
   footer{
     padding: 56px 6vw 40px;
@@ -460,6 +649,8 @@
     nav{
       position: fixed;
       top: 68px; left: 0; right: 0;
+      max-height: calc(100vh - 68px);
+      overflow-y: auto;
       background: rgba(255,255,255,0.97);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(15,23,42,0.08);
@@ -478,6 +669,10 @@
     .stats-row{ gap: 36px; padding: 30px; }
     section{ padding: 80px 6vw; }
   }
+  @media (prefers-reduced-motion: reduce){
+    nav{ transition: none; }
+  }
+  body.nav-locked{ overflow: hidden; }
 </style>
 </head>
 <body>
@@ -489,34 +684,39 @@
 <div class="wrap">
 
   <header>
-    <div class="brand"><span class="brand-dot"></span>조경선</div>
+    <a class="brand" href="#" id="brandLink"><img class="brand-avatar" src="image/sunny.png" alt="조경선 프로필 사진">조경선</a>
     <nav id="nav">
       <ul>
-        <li><a href="#services">서비스</a></li>
+        <li><a href="#about">강사 소개</a></li>
+        <li><a href="#programs">강의 분야</a></li>
+        <li><a href="#career">AI·로봇 교육 이력</a></li>
         <li><a href="#testimonials">후기</a></li>
-        <li><a href="#faq">자주 묻는 질문</a></li>
-        <li><a href="#contact">문의</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </nav>
     <div style="display:flex; align-items:center; gap:14px;">
-      <a class="btn btn-primary" href="mailto:jo9419@naver.com?subject=강의 문의" style="padding:10px 22px; font-size:0.85rem;">문의하기</a>
-      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">☰</button>
+      <a class="btn btn-primary" href="#contact" style="padding:10px 22px; font-size:0.85rem;">문의하기</a>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav">☰</button>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="eyebrow reveal in"><span></span>AI 강의 · 컨설팅 문의 환영</div>
+  <section class="hero" id="about">
+    <div class="hero-photo-wrap reveal in">
+      <img class="hero-photo" src="image/sunny.png" alt="조경선 프로필 사진">
+    </div>
+    <div class="eyebrow reveal in"><span></span>AI 융합 교육 · 진로교육 · 에듀테크</div>
     <h1 class="reveal in">
-      복잡한 AI를,<br>
-      <span class="grad-text">누구나 이해할 수 있게</span>
+      AI를 어렵지 않게,<br>
+      <span class="grad-text">수업과 업무에 바로 쓰이게</span>
     </h1>
     <p class="reveal in">
-      기업 실무자부터 처음 AI를 접하는 분들까지<br>
-      <span class="hero-line">눈높이에 맞춘 강의와 컨설팅으로 실제 업무에 바로 적용할 수 있는 AI 활용법을 전합니다.</span>
+      구글 인증 교육자(GCE)를 기반으로 Gemini, Canva, NotebookLM 등<br>
+      <span class="hero-line">다양한 AI·에듀테크 도구를 활용한 학생·교사·기관 맞춤형 교육을 설계합니다.</span>
     </p>
+    <div class="hero-instructor reveal in">조경선 <span class="divider">|</span> AI 융합 교육·진로교육 전문 강사</div>
     <div class="hero-cta reveal in">
-      <a class="btn btn-primary" href="mailto:jo9419@naver.com?subject=강의 문의">✉️ 지금 문의하기</a>
-      <a class="btn btn-ghost" href="#services">서비스 둘러보기</a>
+      <a class="btn btn-ghost" href="#programs">강의 프로그램 보기</a>
+      <a class="btn btn-primary" href="#contact">강의 문의하기</a>
     </div>
     <div class="hero-stats reveal in">
       <div class="stat">
@@ -534,27 +734,90 @@
     </div>
   </section>
 
-  <section id="services">
+  <section id="programs">
     <div class="section-head reveal">
-      <span class="section-tag">서비스</span>
-      <h2>제공하는 서비스</h2>
-      <p>기업 교육부터 개인 컨설팅까지, 필요에 맞는 방식으로 AI 역량을 키워드립니다.</p>
+      <span class="section-tag">프로그램</span>
+      <h2>맞춤형 AI·진로 교육 프로그램</h2>
+      <p>교육 대상과 목적에 맞춰 이론보다 직접 체험하고 결과물을 완성하는 참여형 교육을 설계합니다.</p>
     </div>
     <div class="services-grid">
       <div class="card reveal">
+        <div class="card-icon">🧑‍🎓</div>
+        <h3>학생·청소년 AI 교육</h3>
+        <ul class="card-list">
+          <li>생성형 AI 이해와 활용</li>
+          <li>AI 윤리와 개인정보 보호</li>
+          <li>AI 콘텐츠·영상·이미지 제작</li>
+          <li>코딩·로봇·피지컬 컴퓨팅</li>
+          <li>AI 진로 탐색</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">👩‍🏫</div>
+        <h3>교사·강사 대상 연수</h3>
+        <ul class="card-list">
+          <li>Gemini·Canva·NotebookLM 활용</li>
+          <li>수행평가 및 수업자료 제작</li>
+          <li>생성형 AI 기반 수업 설계</li>
+          <li>교사용 업무 효율화</li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">🎯</div>
+        <h3>진로·포트폴리오 교육</h3>
+        <ul class="card-list">
+          <li>진로 및 학과 탐색</li>
+          <li>수행평가 포트폴리오 제작</li>
+          <li>자기소개·발표자료 제작</li>
+          <li>학생 맞춤형 결과 피드백</li>
+        </ul>
+      </div>
+      <div class="card reveal">
         <div class="card-icon">🏢</div>
-        <h3>기업 AI 교육</h3>
-        <p>임직원 대상 생성형 AI 활용 교육을 기획부터 진행까지 맞춤형으로 제공합니다. 실무 사례 중심의 커리큘럼으로 구성됩니다.</p>
+        <h3>기관 맞춤 교육</h3>
+        <ul class="card-list">
+          <li>대상과 연령에 따른 커리큘럼 설계</li>
+          <li>교안·활동지·PPT 제작</li>
+          <li>학부모 설명회 및 교사 연수</li>
+          <li>결과보고서 및 교육 산출물 제공</li>
+        </ul>
       </div>
-      <div class="card reveal">
-        <div class="card-icon">💡</div>
-        <h3>1:1 컨설팅</h3>
-        <p>개인 또는 팀 단위로 AI 도구 도입, 업무 자동화, 활용 전략을 함께 설계하는 맞춤 컨설팅을 진행합니다.</p>
-      </div>
-      <div class="card reveal">
-        <div class="card-icon">🎓</div>
-        <h3>온라인·오프라인 강의</h3>
-        <p>입문자부터 실무자까지, 눈높이에 맞춘 정기 강의와 워크숍을 온·오프라인으로 운영합니다.</p>
+    </div>
+  </section>
+
+  <section id="career" class="career-section">
+    <div class="section-head reveal">
+      <span class="section-tag">경력</span>
+      <h2>AI · 로봇 교육 이력</h2>
+      <p>현장에서 쌓아온 AI·로봇 교육 경험과 창작 활동입니다.</p>
+    </div>
+    <div class="marquee-outer reveal">
+      <div class="marquee-track">
+        <div class="marquee-item">🤖 로봇지도사 1급 (STEAM교육협회)</div>
+        <div class="marquee-item">🧠 AI활용전문가 1급 (한국교육검정원)</div>
+        <div class="marquee-item">🎓 구글공인교육자 1급 (Google for Education)</div>
+        <div class="marquee-item">💬 GPT 방탈출 &amp; 데이터파이 특강</div>
+        <div class="marquee-item">🧩 현대 WIA 레고코딩 교육</div>
+        <div class="marquee-item">🐢 포켓터틀 로봇코딩 교과 운영</div>
+        <div class="marquee-item marquee-item--feature">🎬 AI애니메이션 영화 &lt;디지털 공허 Look Up&gt; · 성남미디어센터 상영작</div>
+        <div class="marquee-item marquee-item--feature">📖 AI그림책 &lt;그림자때문이야&gt; 출간</div>
+        <div class="marquee-item">🚀 성남시 청소년재단 AI크리에이터즈 강사</div>
+        <div class="marquee-item">🖥️ 넷마블 창문프로젝트 코딩교육</div>
+        <div class="marquee-item">🎨 인공지능웹툰 투닝 교육지도자 2급</div>
+        <div class="marquee-item">🏫 AI·미래직업 교육 (성남시 유스센터)</div>
+        <!-- 무한 스크롤을 위해 동일 목록 반복 -->
+        <div class="marquee-item" aria-hidden="true">🤖 로봇지도사 1급 (STEAM교육협회)</div>
+        <div class="marquee-item" aria-hidden="true">🧠 AI활용전문가 1급 (한국교육검정원)</div>
+        <div class="marquee-item" aria-hidden="true">🎓 구글공인교육자 1급 (Google for Education)</div>
+        <div class="marquee-item" aria-hidden="true">💬 GPT 방탈출 &amp; 데이터파이 특강</div>
+        <div class="marquee-item" aria-hidden="true">🧩 현대 WIA 레고코딩 교육</div>
+        <div class="marquee-item" aria-hidden="true">🐢 포켓터틀 로봇코딩 교과 운영</div>
+        <div class="marquee-item marquee-item--feature" aria-hidden="true">🎬 AI애니메이션 영화 &lt;디지털 공허 Look Up&gt; · 성남미디어센터 상영작</div>
+        <div class="marquee-item marquee-item--feature" aria-hidden="true">📖 AI그림책 &lt;그림자때문이야&gt; 출간</div>
+        <div class="marquee-item" aria-hidden="true">🚀 성남시 청소년재단 AI크리에이터즈 강사</div>
+        <div class="marquee-item" aria-hidden="true">🖥️ 넷마블 창문프로젝트 코딩교육</div>
+        <div class="marquee-item" aria-hidden="true">🎨 인공지능웹툰 투닝 교육지도자 2급</div>
+        <div class="marquee-item" aria-hidden="true">🏫 AI·미래직업 교육 (성남시 유스센터)</div>
       </div>
     </div>
   </section>
@@ -647,16 +910,113 @@
   </section>
 
   <section id="contact">
-    <div class="cta-banner reveal">
-      <h2>지금 바로 문의해보세요</h2>
-      <p>강의, 컨설팅, 협업 제안 모두 환영합니다. 이메일로 편하게 연락 주시면 빠르게 답변드리겠습니다.</p>
-      <a class="btn" href="mailto:jo9419@naver.com?subject=강의 문의">✉️ jo9419@naver.com 으로 문의하기</a>
+    <img class="contact-photo reveal" src="image/profile-wave.png" alt="조경선이 손을 흔드는 모습">
+    <div class="section-head reveal">
+      <span class="section-tag">문의</span>
+      <h2>강의 문의</h2>
+      <p>교육 대상과 목적, 희망 일정을 남겨주시면 확인 후 맞춤형 교육안을 안내해 드립니다.</p>
     </div>
+
+    <form name="lecture-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form reveal" id="contactForm">
+      <input type="hidden" name="form-name" value="lecture-inquiry">
+      <p class="hp-field" aria-hidden="true">
+        <label>남기지 마세요
+          <input tabindex="-1" autocomplete="off" name="bot-field">
+        </label>
+      </p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="f-name">이름 <span class="req">*</span></label>
+          <input type="text" id="f-name" name="name" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="f-org">기관명</label>
+          <input type="text" id="f-org" name="organization" placeholder="학교, 기관, 기업 등 (개인 문의는 생략 가능)">
+        </div>
+
+        <div class="field">
+          <label for="f-email">이메일 <span class="req">*</span></label>
+          <input type="email" id="f-email" name="email" autocomplete="email" aria-describedby="err-email" required>
+          <p class="field-error" id="err-email" role="alert"></p>
+        </div>
+
+        <div class="field">
+          <label for="f-phone">연락처</label>
+          <input type="tel" id="f-phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678">
+        </div>
+
+        <div class="field">
+          <label for="f-target">교육 대상 <span class="req">*</span></label>
+          <select id="f-target" name="target" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option>초등학생</option>
+            <option>중학생</option>
+            <option>고등학생</option>
+            <option>대학생·청년</option>
+            <option>교사·강사</option>
+            <option>학부모</option>
+            <option>기관·기업</option>
+            <option>기타</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="f-count">예상 인원</label>
+          <input type="number" id="f-count" name="headcount" min="1">
+        </div>
+
+        <div class="field">
+          <label for="f-date">희망 일정</label>
+          <input type="text" id="f-date" name="schedule" placeholder="2026년 8월 중 또는 일정 협의">
+        </div>
+
+        <div class="field">
+          <label for="f-region">교육 지역</label>
+          <input type="text" id="f-region" name="region" placeholder="서울, 경기 성남 또는 온라인">
+        </div>
+
+        <div class="field field-full">
+          <label for="f-topic">희망 교육 주제 <span class="req">*</span></label>
+          <select id="f-topic" name="topic" required>
+            <option value="" disabled selected>선택해주세요</option>
+            <option>학생·청소년 AI 교육</option>
+            <option>교사·강사 대상 연수</option>
+            <option>진로·포트폴리오 교육</option>
+            <option>기관 맞춤 교육</option>
+            <option>기타</option>
+          </select>
+        </div>
+
+        <div class="field field-full">
+          <label for="f-message">문의 내용 <span class="req">*</span></label>
+          <textarea id="f-message" name="message" rows="6" placeholder="교육 목적, 희망 시간, 원하는 활동 등을 적어주세요." required></textarea>
+        </div>
+
+        <div class="field field-full">
+          <label class="checkbox-field" for="f-agree">
+            <input type="checkbox" id="f-agree" name="agree" required>
+            <span>문의 답변을 위해 입력한 정보를 수집·이용하는 데 동의합니다. <span class="req">*</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-submit-wrap">
+        <button type="submit" class="btn btn-primary form-submit" id="submitBtn">강의 문의 보내기</button>
+      </div>
+
+      <p class="form-note">문의 내용을 확인한 후 1~2일 이내에 연락드립니다.<br>교육 대상과 일정에 따라 맞춤형 커리큘럼을 제안해 드립니다.</p>
+
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+
+    <p class="contact-secondary">직접 이메일로 문의하시려면 <a href="mailto:jo9419@naver.com">jo9419@naver.com</a> 으로 연락해 주세요.</p>
   </section>
 
   <footer>
     <div class="footer-inner">
-      <div class="brand"><span class="brand-dot"></span>조경선</div>
+      <div class="brand"><img class="brand-avatar" src="image/sunny.png" alt="조경선 프로필 사진">조경선</div>
       <div class="footer-links">
         <a href="mailto:jo9419@naver.com">jo9419@naver.com</a>
         <a href="#" target="_blank" rel="noopener">블로그</a>
@@ -670,14 +1030,52 @@
 </div>
 
 <script>
-  document.getElementById('navToggle').addEventListener('click', function(){
-    document.getElementById('nav').classList.toggle('open');
+  var navToggle = document.getElementById('navToggle');
+  var nav = document.getElementById('nav');
+
+  function openNav(){
+    nav.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    navToggle.setAttribute('aria-label', '메뉴 닫기');
+    navToggle.textContent = '✕';
+    document.body.classList.add('nav-locked');
+  }
+  function closeNav(){
+    nav.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', '메뉴 열기');
+    navToggle.textContent = '☰';
+    document.body.classList.remove('nav-locked');
+  }
+
+  navToggle.addEventListener('click', function(){
+    if(nav.classList.contains('open')){ closeNav(); } else { openNav(); }
   });
   document.querySelectorAll('nav a').forEach(function(a){
     a.addEventListener('click', function(){
-      document.getElementById('nav').classList.remove('open');
+      closeNav();
     });
   });
+  document.addEventListener('click', function(e){
+    if(!nav.classList.contains('open')) return;
+    if(nav.contains(e.target) || navToggle.contains(e.target)) return;
+    closeNav();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && nav.classList.contains('open')){
+      closeNav();
+      navToggle.focus();
+    }
+  });
+
+  var brandLink = document.getElementById('brandLink');
+  if(brandLink){
+    brandLink.addEventListener('click', function(e){
+      e.preventDefault();
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  }
 
   document.querySelectorAll('.faq-q').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -700,6 +1098,71 @@
   document.querySelectorAll('.reveal:not(.in)').forEach(function(el){
     observer.observe(el);
   });
+
+  var contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    var submitBtn = document.getElementById('submitBtn');
+    var formStatus = document.getElementById('formStatus');
+    var emailField = document.getElementById('f-email');
+    var emailErrorEl = document.getElementById('err-email');
+    var emailFieldWrap = emailField.closest('.field');
+
+    function isValidEmail(value){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function encodeFormData(form){
+      var data = new FormData(form);
+      var pairs = [];
+      data.forEach(function(value, key){
+        pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+      });
+      return pairs.join('&');
+    }
+
+    contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      if(submitBtn.disabled) return;
+
+      emailErrorEl.textContent = '';
+      emailFieldWrap.classList.remove('has-error');
+
+      if(!contactForm.checkValidity()){
+        contactForm.reportValidity();
+        return;
+      }
+      if(!isValidEmail(emailField.value.trim())){
+        emailErrorEl.textContent = '올바른 이메일 주소를 입력해주세요.';
+        emailFieldWrap.classList.add('has-error');
+        emailField.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      var originalLabel = submitBtn.textContent;
+      submitBtn.textContent = '전송 중...';
+      formStatus.textContent = '';
+      formStatus.classList.remove('is-success', 'is-error');
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeFormData(contactForm)
+      }).then(function(res){
+        if(!res.ok){ throw new Error('submit failed'); }
+        formStatus.textContent = '문의가 정상적으로 접수되었습니다.\n내용을 확인한 후 1~2일 이내에 연락드리겠습니다.';
+        formStatus.classList.add('is-success');
+        contactForm.reset();
+      }).catch(function(){
+        formStatus.textContent = '문의 전송 중 문제가 발생했습니다.\n잠시 후 다시 시도하거나 이메일로 문의해 주세요.';
+        formStatus.classList.add('is-error');
+      }).finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      });
+    });
+  }
 </script>
 
 </body>
