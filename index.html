@@ -618,6 +618,81 @@
     text-decoration: underline;
   }
 
+  /* 모달 팝업 스타일 */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-container {
+    background: var(--bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    max-width: 780px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 24px 64px -12px rgba(15, 23, 42, 0.18);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    padding: 44px 34px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(56, 189, 248, 0.3) transparent;
+  }
+  .modal-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  .modal-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .modal-container::-webkit-scrollbar-thumb {
+    background-color: rgba(56, 189, 248, 0.3);
+    border-radius: 99px;
+  }
+  .modal-overlay.open .modal-container {
+    transform: scale(1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 24px; right: 28px;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-dim);
+    transition: color 0.2s, transform 0.2s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+  }
+  .modal-close:hover {
+    color: var(--text);
+    background: rgba(15, 23, 42, 0.05);
+    transform: rotate(90deg);
+  }
+  .modal-locked {
+    overflow: hidden;
+  }
+
   footer{
     padding: 56px 6vw 40px;
     border-top: 1px solid rgba(15,23,42,0.08);
@@ -793,9 +868,9 @@
     </div>
     <div class="marquee-outer reveal">
       <div class="marquee-track">
-        <div class="marquee-item">🤖 로봇지도사 1급 (STEAM교육협회)</div>
-        <div class="marquee-item">🧠 AI활용전문가 1급 (한국교육검정원)</div>
-        <div class="marquee-item">🎓 구글공인교육자 1급 (Google for Education)</div>
+        <div class="marquee-item">🤖 로봇지도사</div>
+        <div class="marquee-item">🧠 AI활용전문가</div>
+        <div class="marquee-item">🎓 구글공인교육자</div>
         <div class="marquee-item">💬 GPT 방탈출 &amp; 데이터파이 특강</div>
         <div class="marquee-item">🧩 현대 WIA 레고코딩 교육</div>
         <div class="marquee-item">🐢 포켓터틀 로봇코딩 교과 운영</div>
@@ -803,12 +878,12 @@
         <div class="marquee-item marquee-item--feature">📖 AI그림책 &lt;그림자때문이야&gt; 출간</div>
         <div class="marquee-item">🚀 성남시 청소년재단 AI크리에이터즈 강사</div>
         <div class="marquee-item">🖥️ 넷마블 창문프로젝트 코딩교육</div>
-        <div class="marquee-item">🎨 인공지능웹툰 투닝 교육지도자 2급</div>
+        <div class="marquee-item">🎨 인공지능웹툰 투닝 교육지도자</div>
         <div class="marquee-item">🏫 AI·미래직업 교육 (성남시 유스센터)</div>
         <!-- 무한 스크롤을 위해 동일 목록 반복 -->
-        <div class="marquee-item" aria-hidden="true">🤖 로봇지도사 1급 (STEAM교육협회)</div>
-        <div class="marquee-item" aria-hidden="true">🧠 AI활용전문가 1급 (한국교육검정원)</div>
-        <div class="marquee-item" aria-hidden="true">🎓 구글공인교육자 1급 (Google for Education)</div>
+        <div class="marquee-item" aria-hidden="true">🤖 로봇지도사</div>
+        <div class="marquee-item" aria-hidden="true">🧠 AI활용전문가</div>
+        <div class="marquee-item" aria-hidden="true">🎓 구글공인교육자</div>
         <div class="marquee-item" aria-hidden="true">💬 GPT 방탈출 &amp; 데이터파이 특강</div>
         <div class="marquee-item" aria-hidden="true">🧩 현대 WIA 레고코딩 교육</div>
         <div class="marquee-item" aria-hidden="true">🐢 포켓터틀 로봇코딩 교과 운영</div>
@@ -816,7 +891,7 @@
         <div class="marquee-item marquee-item--feature" aria-hidden="true">📖 AI그림책 &lt;그림자때문이야&gt; 출간</div>
         <div class="marquee-item" aria-hidden="true">🚀 성남시 청소년재단 AI크리에이터즈 강사</div>
         <div class="marquee-item" aria-hidden="true">🖥️ 넷마블 창문프로젝트 코딩교육</div>
-        <div class="marquee-item" aria-hidden="true">🎨 인공지능웹툰 투닝 교육지도자 2급</div>
+        <div class="marquee-item" aria-hidden="true">🎨 인공지능웹툰 투닝 교육지도자</div>
         <div class="marquee-item" aria-hidden="true">🏫 AI·미래직업 교육 (성남시 유스센터)</div>
       </div>
     </div>
@@ -904,115 +979,118 @@
       </div>
       <div class="faq-item reveal">
         <button class="faq-q">문의는 어떻게 하나요? <span class="icon">+</span></button>
-        <div class="faq-a"><p>페이지 상단 또는 하단의 '문의하기' 버튼을 눌러 이메일로 연락 주시면 빠르게 답변드립니다.</p></div>
+        <div class="faq-a"><p>페이지 상단 또는 하단의 '문의하기' 버튼을 누르시면 문의 폼 팝업이 나타납니다. 직접 이메일(<a href="mailto:jo9419@naver.com">jo9419@naver.com</a>)로 연락을 주셔도 좋습니다.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="contact">
-    <img class="contact-photo reveal" src="image/profile-wave.png" alt="조경선이 손을 흔드는 모습">
-    <div class="section-head reveal">
-      <span class="section-tag">문의</span>
-      <h2>강의 문의</h2>
-      <p>교육 대상과 목적, 희망 일정을 남겨주시면 확인 후 맞춤형 교육안을 안내해 드립니다.</p>
-    </div>
+  <div id="contactModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-container">
+      <button class="modal-close" id="closeModalBtn" aria-label="닫기">✕</button>
+      <img class="contact-photo" src="image/profile-wave.png" alt="조경선이 손을 흔드는 모습">
+      <div class="section-head" style="margin-bottom: 28px;">
+        <span class="section-tag">문의</span>
+        <h2 id="modalTitle">강의 문의</h2>
+        <p>교육 대상과 목적, 희망 일정을 남겨주시면 확인 후 맞춤형 교육안을 안내해 드립니다.</p>
+      </div>
 
-    <form name="lecture-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form reveal" id="contactForm">
-      <input type="hidden" name="form-name" value="lecture-inquiry">
-      <p class="hp-field" aria-hidden="true">
-        <label>남기지 마세요
-          <input tabindex="-1" autocomplete="off" name="bot-field">
-        </label>
-      </p>
-
-      <div class="form-grid">
-        <div class="field">
-          <label for="f-name">이름 <span class="req">*</span></label>
-          <input type="text" id="f-name" name="name" autocomplete="name" required>
-        </div>
-
-        <div class="field">
-          <label for="f-org">기관명</label>
-          <input type="text" id="f-org" name="organization" placeholder="학교, 기관, 기업 등 (개인 문의는 생략 가능)">
-        </div>
-
-        <div class="field">
-          <label for="f-email">이메일 <span class="req">*</span></label>
-          <input type="email" id="f-email" name="email" autocomplete="email" aria-describedby="err-email" required>
-          <p class="field-error" id="err-email" role="alert"></p>
-        </div>
-
-        <div class="field">
-          <label for="f-phone">연락처</label>
-          <input type="tel" id="f-phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678">
-        </div>
-
-        <div class="field">
-          <label for="f-target">교육 대상 <span class="req">*</span></label>
-          <select id="f-target" name="target" required>
-            <option value="" disabled selected>선택해주세요</option>
-            <option>초등학생</option>
-            <option>중학생</option>
-            <option>고등학생</option>
-            <option>대학생·청년</option>
-            <option>교사·강사</option>
-            <option>학부모</option>
-            <option>기관·기업</option>
-            <option>기타</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="f-count">예상 인원</label>
-          <input type="number" id="f-count" name="headcount" min="1">
-        </div>
-
-        <div class="field">
-          <label for="f-date">희망 일정</label>
-          <input type="text" id="f-date" name="schedule" placeholder="2026년 8월 중 또는 일정 협의">
-        </div>
-
-        <div class="field">
-          <label for="f-region">교육 지역</label>
-          <input type="text" id="f-region" name="region" placeholder="서울, 경기 성남 또는 온라인">
-        </div>
-
-        <div class="field field-full">
-          <label for="f-topic">희망 교육 주제 <span class="req">*</span></label>
-          <select id="f-topic" name="topic" required>
-            <option value="" disabled selected>선택해주세요</option>
-            <option>학생·청소년 AI 교육</option>
-            <option>교사·강사 대상 연수</option>
-            <option>진로·포트폴리오 교육</option>
-            <option>기관 맞춤 교육</option>
-            <option>기타</option>
-          </select>
-        </div>
-
-        <div class="field field-full">
-          <label for="f-message">문의 내용 <span class="req">*</span></label>
-          <textarea id="f-message" name="message" rows="6" placeholder="교육 목적, 희망 시간, 원하는 활동 등을 적어주세요." required></textarea>
-        </div>
-
-        <div class="field field-full">
-          <label class="checkbox-field" for="f-agree">
-            <input type="checkbox" id="f-agree" name="agree" required>
-            <span>문의 답변을 위해 입력한 정보를 수집·이용하는 데 동의합니다. <span class="req">*</span></span>
+      <form name="lecture-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form" id="contactForm" style="background: none; border: none; padding: 0; max-width: 100%;">
+        <input type="hidden" name="form-name" value="lecture-inquiry">
+        <p class="hp-field" aria-hidden="true">
+          <label>남기지 마세요
+            <input tabindex="-1" autocomplete="off" name="bot-field">
           </label>
+        </p>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-name">이름 <span class="req">*</span></label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="f-org">기관명</label>
+            <input type="text" id="f-org" name="organization" placeholder="학교, 기관, 기업 등 (개인 문의는 생략 가능)">
+          </div>
+
+          <div class="field">
+            <label for="f-email">이메일 <span class="req">*</span></label>
+            <input type="email" id="f-email" name="email" autocomplete="email" aria-describedby="err-email" required>
+            <p class="field-error" id="err-email" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="f-phone">연락처</label>
+            <input type="tel" id="f-phone" name="phone" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678">
+          </div>
+
+          <div class="field">
+            <label for="f-target">교육 대상 <span class="req">*</span></label>
+            <select id="f-target" name="target" required>
+              <option value="" disabled selected>선택해주세요</option>
+              <option>초등학생</option>
+              <option>중학생</option>
+              <option>고등학생</option>
+              <option>대학생·청년</option>
+              <option>교사·강사</option>
+              <option>학부모</option>
+              <option>기관·기업</option>
+              <option>기타</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="f-count">예상 인원</label>
+            <input type="number" id="f-count" name="headcount" min="1">
+          </div>
+
+          <div class="field">
+            <label for="f-date">희망 일정</label>
+            <input type="text" id="f-date" name="schedule" placeholder="2026년 8월 중 또는 일정 협의">
+          </div>
+
+          <div class="field">
+            <label for="f-region">교육 지역</label>
+            <input type="text" id="f-region" name="region" placeholder="서울, 경기 성남 또는 온라인">
+          </div>
+
+          <div class="field field-full">
+            <label for="f-topic">희망 교육 주제 <span class="req">*</span></label>
+            <select id="f-topic" name="topic" required>
+              <option value="" disabled selected>선택해주세요</option>
+              <option>학생·청소년 AI 교육</option>
+              <option>교사·강사 대상 연수</option>
+              <option>진로·포트폴리오 교육</option>
+              <option>기관 맞춤 교육</option>
+              <option>기타</option>
+            </select>
+          </div>
+
+          <div class="field field-full">
+            <label for="f-message">문의 내용 <span class="req">*</span></label>
+            <textarea id="f-message" name="message" rows="6" placeholder="교육 목적, 희망 시간, 원하는 활동 등을 적어주세요." required></textarea>
+          </div>
+
+          <div class="field field-full">
+            <label class="checkbox-field" for="f-agree">
+              <input type="checkbox" id="f-agree" name="agree" required>
+              <span>문의 답변을 위해 입력한 정보를 수집·이용하는 데 동의합니다. <span class="req">*</span></span>
+            </label>
+          </div>
         </div>
-      </div>
 
-      <div class="form-submit-wrap">
-        <button type="submit" class="btn btn-primary form-submit" id="submitBtn">강의 문의 보내기</button>
-      </div>
+        <div class="form-submit-wrap">
+          <button type="submit" class="btn btn-primary form-submit" id="submitBtn">강의 문의 보내기</button>
+        </div>
 
-      <p class="form-note">문의 내용을 확인한 후 1~2일 이내에 연락드립니다.<br>교육 대상과 일정에 따라 맞춤형 커리큘럼을 제안해 드립니다.</p>
+        <p class="form-note">문의 내용을 확인한 후 1~2일 이내에 연락드립니다.<br>교육 대상과 일정에 따라 맞춤형 커리큘럼을 제안해 드립니다.</p>
 
-      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-    </form>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
 
-    <p class="contact-secondary">직접 이메일로 문의하시려면 <a href="mailto:jo9419@naver.com">jo9419@naver.com</a> 으로 연락해 주세요.</p>
-  </section>
+      <p class="contact-secondary" style="margin-top: 24px;">직접 이메일로 문의하시려면 <a href="mailto:jo9419@naver.com">jo9419@naver.com</a> 으로 연락해 주세요.</p>
+    </div>
+  </div>
 
   <footer>
     <div class="footer-inner">
@@ -1067,6 +1145,54 @@
       navToggle.focus();
     }
   });
+
+  // 문의하기 모달 제어
+  var contactModal = document.getElementById('contactModal');
+  var closeModalBtn = document.getElementById('closeModalBtn');
+
+  function openContactModal(){
+    contactModal.classList.add('open');
+    document.body.classList.add('modal-locked');
+    var nameField = document.getElementById('f-name');
+    if(nameField) {
+      setTimeout(function(){ nameField.focus(); }, 100);
+    }
+  }
+
+  function closeContactModal(){
+    contactModal.classList.remove('open');
+    document.body.classList.remove('modal-locked');
+  }
+
+  document.querySelectorAll('a[href="#contact"]').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      openContactModal();
+    });
+  });
+
+  if(closeModalBtn){
+    closeModalBtn.addEventListener('click', closeContactModal);
+  }
+
+  if(contactModal){
+    contactModal.addEventListener('click', function(e){
+      if(e.target === contactModal){
+        closeContactModal();
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && contactModal && contactModal.classList.contains('open')){
+      closeContactModal();
+    }
+  });
+
+  if(window.location.hash === '#contact'){
+    history.replaceState("", document.title, window.location.pathname + window.location.search);
+    openContactModal();
+  }
 
   var brandLink = document.getElementById('brandLink');
   if(brandLink){
